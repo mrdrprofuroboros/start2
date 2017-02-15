@@ -1,0 +1,30 @@
+[{
+    "text": "Folder 1", 
+    "cls": "folder",
+    "expanded": true,
+    "children": [{
+        "text": "Leaf 1",
+        "leaf": true,
+        "checked": false
+    },{
+        "text": "Leaf 2",
+        "leaf": true,
+        "checked": false
+    },{
+        "text": "Leaf 3",
+        "leaf": true,
+        "checked": false
+    }]
+},{
+    "text": "Folder 2",
+    "cls": "folder",
+    "children": [{
+        "text": "Leaf 4",
+        "leaf": true,
+        "checked": false
+    },{
+        "text": "Leaf 5",
+        "leaf": true,
+        "checked": false
+    }]
+}]

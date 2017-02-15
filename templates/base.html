@@ -1,0 +1,42 @@
+{% load staticfiles %}
+{% load static from staticfiles %}
+<!-- Do NOT put any DOCTYPE here unless you want problems in IEs. -->
+<html>
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <!-- Importing Extjs library -->
+
+    {% if not settings.EXT5_DEBUG_MODE %}
+        <script type="text/javascript" src="/static/ext5-workspace/ext/build/ext-all.js"></script>
+
+        <script type="text/javascript" src="/static/ext5-workspace/build/production/{{ app_path }}/app.js"></script>
+        <link rel="stylesheet" type="text/css" href="/static/ext5-workspace/build/production/{{ app_name }}/resources/{{ app_name }}-all.css">
+
+        {% block build %}
+        {% endblock %}
+    {% endif %}
+
+    {% if settings.EXT5_DEBUG_MODE %}
+        <script type="text/javascript" src="/static/ext5-workspace/ext/build/ext-all-debug.js"></script>
+
+        <script type="text/javascript" src="/static/ext5-workspace/{{ app_path }}/app.js"></script>
+        <link rel="stylesheet" type="text/css" href="/static/ext5-workspace/build/development/{{ app_name }}/resources/{{ app_name }}-all.css">
+
+        {% block debug %}
+        {% endblock %}
+    {% endif %}
+
+
+    {% block head %}
+    {% endblock %}
+
+</head>
+
+<body>
+{% block content %}
+{% endblock %}
+</body>
+
+</html> 
