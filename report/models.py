@@ -18,3 +18,13 @@ class Combobox3(models.Model):
 
     def __unicode__(self):
         return self.value
+
+class FolderTreeNode(models.Model):
+    is_root = models.BooleanField(default=False)
+    is_leaf = models.BooleanField(default=True)
+    parent = models.ForeignKey('FolderTreeNode', related_name='children', on_delete=models.CASCADE, null=True, blank=True)
+
+    name = models.CharField(max_length=100, null=True)
+
+    def __unicode__(self):
+        return self.name

@@ -1,8 +1,12 @@
 var treeStore = Ext.create('Ext.data.TreeStore', {
+    autoLoad: true,
     proxy: {
-        autoLoad: true,
         type: 'ajax',
-        url: 'check-nodes.json'
+        url: '/foldertree',
+        reader: {
+            type: 'json'
+        },
+        writer: 'json'
     },
     sorters: [{
         property: 'leaf',

@@ -1,5 +1,5 @@
 from rest_framework import viewsets, routers, serializers
-from .models import Report, Combobox3
+from .models import *
 
 
 #
@@ -55,13 +55,16 @@ class Combobox3Serializer(serializers.HyperlinkedModelSerializer):
 
     value = serializers.CharField(required=True)  
 
-    def create(self, validated_data):
-        return Combobox3.objects.create(**validated_data)
+class FolderTreeNodeSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+       model = FolderTreeNode
+       fields = ('is_root', 'is_leaf', 'name', 'parent')
 
-    def update(self, instance, validated_data):
-        instance.value = validated_data.get('value', instance.value)
-        instance.save()
-        return instance
+    name = serializers.CharField(required=True) 
+    is_root = serializers.BooleanField(required=True)
+    is_leaf = serializers.BooleanField(required=True)
+    parent = serializers.PrimaryKeyRelatedField(required=False, queryset=FolderTreeNode.objects.all())
+
      
 #################################################################################
 #
@@ -90,6 +93,10 @@ class ReportViewSet(viewsets.ModelViewSet):
 class Combobox3ViewSet(viewsets.ModelViewSet):
     queryset = Combobox3.objects.all()
     serializer_class = Combobox3Serializer
+
+class FolderTreeNodeViewSet(viewsets.ModelViewSet):
+    queryset = FolderTreeNode.objects.all()
+    serializer_class = FolderTreeNodeSerializer
    
 #################################################################################
 #
@@ -101,4 +108,5 @@ class Combobox3ViewSet(viewsets.ModelViewSet):
 def register(restrouter):
     restrouter.register(r'report', ReportViewSet)
     restrouter.register(r'combobox3', Combobox3ViewSet)
+    restrouter.register(r'foldertreenode', FolderTreeNodeViewSet)
     

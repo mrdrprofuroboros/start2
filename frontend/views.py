@@ -7,8 +7,8 @@ from django.shortcuts import render_to_response
 from django.views.generic import TemplateView
 from django.conf import settings
 
-from report.models import Report, Combobox3
-from report.rest import ReportSerializer, Combobox3Serializer
+from report.models import *
+from report.rest import *
 import json
 import urllib
 
@@ -49,10 +49,30 @@ def permissions(request):
 
 def getCombobox3(request):
     if request.method == 'GET':
-        rows = Combobox3.objects.all()
-        serializer = Combobox3Serializer(rows, many=True, context={'request': request})
+        options = Combobox3.objects.all()
+        serializer = Combobox3Serializer(options, many=True)
         
         return JSONResponse(serializer.data)
+
+def getFolderTree(request):
+    if request.method == 'GET':
+        root = FolderTreeNode.objects.get(is_root=True)
+
+        def constructTree(node):
+            d = {
+                "text": node.name,
+                "leaf": node.is_leaf,
+            }
+            if not node.is_leaf:
+                children = [constructTree(n) for n in node.children.all()]
+                d["children"] = children
+            else:
+                d["checked"] = False
+            return d
+
+        tree = constructTree(root)
+
+        return JSONResponse(tree)
 
 @csrf_protect
 def data(request, id=None):
