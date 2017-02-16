@@ -6,7 +6,8 @@ Ext.define('TestApp2.view.sidepanel.SidePanelController', {
         Ext.MessageBox.show({
             title: 'Error',
             msg: msg,
-            icon: Ext.MessageBox.INFO
+            icon: Ext.MessageBox.INFO,
+            buttons: Ext.Msg.OK
         });
     },
 
@@ -26,16 +27,12 @@ Ext.define('TestApp2.view.sidepanel.SidePanelController', {
 
         var curRep = vm.get('currentReport');
 
-        //console.log(curRep, JSON.stringify(flatten(curRep)));
-
         curRep.value6 = view.down('mychecktree').getController().getChecked();
 
         if (!curRep.value1) {
             me.printMessage('Please set up Value 1')
             return;
         }
-
-
         if (curRep.value4 == 'Field 1') {
             if (!curRep.value2) {
                 me.printMessage('Please set up Value 2 or toggle Value 4')

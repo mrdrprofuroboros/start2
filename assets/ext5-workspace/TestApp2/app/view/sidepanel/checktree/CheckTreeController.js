@@ -21,18 +21,13 @@ Ext.define('TestApp2.view.sidepanel.checktree.CheckTreeController', {
 
         var names = str.split('#');
 
+        me.uncheckAll();
         me.getView().getRootNode().cascadeBy(function(node) {
             if (node.isLeaf() && names.indexOf(node.data.text) >= 0) {
 
                 node.set({checked:true});
             }
         })
-                   
-        // Ext.Array.each(records, function(rec){
-        //     names.push(rec.get('text'));
-        // });
-        // var checked = names.join('#');
-        // return checked;
     },
 
     uncheckAll: function() {

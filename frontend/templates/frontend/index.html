@@ -2,7 +2,7 @@
 {% load staticfiles %}
 {% load static from staticfiles %}
 
-{% block title %}Django REST ExtJS{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 
 
 {% block head %}
@@ -10,5 +10,4 @@
 
 
 {% block content %}
-{{ title }}{{ STATIC_URL }}
 {% endblock %}

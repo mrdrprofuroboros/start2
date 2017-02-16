@@ -49,7 +49,8 @@ var reportStore = Ext.create('Ext.data.Store', {
                 }
                 Ext.MessageBox.show({
                     title: 'Input error!',
-                    msg: msg
+                    msg: msg,
+                    buttons: 'OK'
                 });
             }
         }
