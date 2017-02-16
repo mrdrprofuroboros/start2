@@ -12,3 +12,9 @@ class Report(models.Model):
 
     def __unicode__(self):
         return self.value1
+
+class Combobox3(models.Model):
+    value = models.CharField(max_length=100, primary_key=True)
+
+    def __unicode__(self):
+        return self.value

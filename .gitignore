@@ -1,2 +1,4 @@
 *.pyc
-
+*.DS_Store
+assets/ext5-workspace/build/temp/
+static/ext5-workspace/build/temp/

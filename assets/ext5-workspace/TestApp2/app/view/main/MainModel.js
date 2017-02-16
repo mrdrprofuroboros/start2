@@ -14,8 +14,46 @@ Ext.define('Report', {
     ]
 });
 
+var urlRoot = '/data';
+
 var reportStore = Ext.create('Ext.data.Store', {
-    model: 'Report'
+    model: 'Report',
+    autoLoad: true,
+    autoSync: true, 
+    proxy: {
+        noCache: false,
+        api: {
+            create:     urlRoot + '/',
+            read:       urlRoot,
+            update:     urlRoot,
+            destroy:    urlRoot
+        },
+        type: 'rest',
+        reader: {   
+            type: 'json',
+            successProperty: 'success',
+            rootProperty: 'data',
+            messageProperty: 'message'
+        },
+        writer: {
+            type: 'json',
+            writeAllFields: false,
+            rootProperty: 'data'
+        },
+        listeners: { 
+            exception: function(proxy, response, options) {
+                var data = Ext.decode(response.responseText).data;
+                var msg = '';
+                for (var key in data) {
+                    msg += key + ' error: ' + data[key] + '<br>';
+                }
+                Ext.MessageBox.show({
+                    title: 'Input error!',
+                    msg: msg
+                });
+            }
+        }
+    }
 });
 
 Ext.define('TestApp2.view.main.MainModel', {

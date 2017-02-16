@@ -1,5 +1,5 @@
 from rest_framework import viewsets, routers, serializers
-from .models import Report
+from .models import Report, Combobox3
 
 
 #
@@ -27,7 +27,7 @@ class ReportSerializer(serializers.HyperlinkedModelSerializer):
     value3 = serializers.CharField(required=False, allow_blank=True)
     value4 = serializers.CharField(required=True)
     value5 = serializers.BooleanField(required=True)
-    value6 = serializers.CharField(required=True)
+    value6 = serializers.CharField(required=False, allow_blank=True)
     
     def create(self, validated_data):
         """
@@ -47,7 +47,21 @@ class ReportSerializer(serializers.HyperlinkedModelSerializer):
         instance.value6 = validated_data.get('value6', instance.value6)
         instance.save()
         return instance
-     
+
+class Combobox3Serializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+       model = Combobox3
+       fields = ('value',)
+
+    value = serializers.CharField(required=True)  
+
+    def create(self, validated_data):
+        return Combobox3.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.value = validated_data.get('value', instance.value)
+        instance.save()
+        return instance
      
 #################################################################################
 #
@@ -68,11 +82,14 @@ class ReportSerializer(serializers.HyperlinkedModelSerializer):
 #################################################################################
 
 
-class TableViewSet(viewsets.ModelViewSet):
+class ReportViewSet(viewsets.ModelViewSet):
     queryset = Report.objects.all()
     serializer_class = ReportSerializer
     # filter_class =
 
+class Combobox3ViewSet(viewsets.ModelViewSet):
+    queryset = Combobox3.objects.all()
+    serializer_class = Combobox3Serializer
    
 #################################################################################
 #
@@ -82,5 +99,6 @@ class TableViewSet(viewsets.ModelViewSet):
 
 
 def register(restrouter):
-    restrouter.register(r'table', TableViewSet)
+    restrouter.register(r'report', ReportViewSet)
+    restrouter.register(r'combobox3', Combobox3ViewSet)
     

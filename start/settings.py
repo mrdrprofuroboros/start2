@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 import os
 
 
-VERSION = '0.0.1'
+VERSION = '0.0.3'
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -35,7 +35,7 @@ SECRET_KEY = '0(ii5q_rac)!_+*+eq0-ne0i2)t&)4djgeu61f3alc^ger0bvd'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-EXT5_DEBUG_MODE = True
+EXT5_DEBUG_MODE = False
 
 # Application definition
 

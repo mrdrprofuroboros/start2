@@ -1,13 +1,14 @@
 from django.http import HttpResponse
 from django.shortcuts import render
-from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.decorators.csrf import csrf_protect
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from django.shortcuts import render_to_response
 from django.views.generic import TemplateView
+from django.conf import settings
 
-from report.models import Report
-from report.rest import ReportSerializer
+from report.models import Report, Combobox3
+from report.rest import ReportSerializer, Combobox3Serializer
 import json
 import urllib
 
@@ -33,9 +34,9 @@ class ReportView(TemplateView):
         context['title'] = 'Report Test'
         context['app_path'] = 'TestApp2'
         context['app_name'] = 'TestApp2'
+        context['settings'] = settings
 
         return context
-
 
 def permissions(request):
     print request.user.user_permissions.all()
@@ -46,10 +47,18 @@ def permissions(request):
         }
     ), 'applicative/json')
 
+def getCombobox3(request):
+    if request.method == 'GET':
+        rows = Combobox3.objects.all()
+        serializer = Combobox3Serializer(rows, many=True, context={'request': request})
+        
+        return JSONResponse(serializer.data)
+
+@csrf_protect
 def data(request, id=None):
     if request.method == 'GET':
-        rows = TableRow.objects.all()
-        serializer = TableRowSerializer(rows, many=True)
+        rows = Report.objects.all()
+        serializer = ReportSerializer(rows, many=True)
         response = {
             "total" : len(serializer.data),
             "success" : True,
@@ -62,7 +71,7 @@ def data(request, id=None):
         body = urllib.unquote(request.body)
         data = json.loads(body)['data']
         print data
-        serializer = TableRowSerializer(data=data)
+        serializer = ReportSerializer(data=data)
         response = {
             "total" : 0,
             "success" : False,
@@ -81,7 +90,7 @@ def data(request, id=None):
         body = urllib.unquote(request.body)
         data = json.loads(body)['data']
         print data
-        serializer = TableRowSerializer(TableRow.objects.get(id=id), data=data, partial=True)
+        serializer = ReportSerializer(Report.objects.get(id=id), data=data, partial=True)
         response = {
             "total" : 0,
             "success" : False,
@@ -98,7 +107,7 @@ def data(request, id=None):
         return JSONResponse(response, status=400)
 
     elif request.method == 'DELETE':
-        row = TableRow.objects.get(id=id)
+        row = Report.objects.get(id=id)
         row.delete()
         response = {
             "success" : True,

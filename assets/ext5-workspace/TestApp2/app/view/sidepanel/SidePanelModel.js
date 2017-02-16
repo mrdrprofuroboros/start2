@@ -16,10 +16,15 @@ Ext.define('TestApp2.view.sidepanel.SidePanelModel', {
             fields: [
                 {name: 'value', type: 'string'}
             ],
-            data: [
-                {'value': 'Option 1'},
-                {'value': 'Option 2'}
-            ]
+            autoLoad: true,
+            proxy: {
+                type: 'ajax',
+                url: '/combobox3',
+                reader: {
+                    type: 'json'
+                },
+                writer: 'json'
+            }
         }
     },
 
